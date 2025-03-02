@@ -33,6 +33,7 @@ RunContext.initial_providers = initial_providers  # type: ignore[method-assign]
 # also disable extras
 ConfigProvidersConfiguration.enable_airflow_secrets = False
 ConfigProvidersConfiguration.enable_google_secrets = False
+ConfigProvidersConfiguration.enable_prefect_secrets = False
 
 
 def pytest_configure(config):
