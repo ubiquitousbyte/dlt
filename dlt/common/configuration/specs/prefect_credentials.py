@@ -25,6 +25,8 @@ class PrefectCredentials(CredentialsConfiguration, CredentialsWithDefault):
 
         self.api_url = prefect_api_url
         self.auth_string = prefect_auth_string
-        self._set_default_credentials((prefect_api_url, prefect_auth_string))
+        self._set_default_credentials(
+            {"api_url": prefect_api_url, "auth_string": prefect_auth_string}
+        )
 
         self.resolve()

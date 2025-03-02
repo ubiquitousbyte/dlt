@@ -16,10 +16,11 @@ from dlt.common.configuration.specs import (
 )
 from dlt.common.typing import Annotated
 
+
 @configspec
 class ConfigProvidersConfiguration(BaseConfiguration):
     enable_airflow_secrets: bool = True
-    enable_prefect_secrets: bool = True
+    enable_prefect_secrets: bool = False
     enable_google_secrets: bool = False
     only_toml_fragments: bool = True
 
@@ -80,7 +81,9 @@ def _extra_providers() -> List[ConfigProvider]:
     if providers_config.enable_airflow_secrets:
         extra_providers.extend(_airflow_providers())
     if providers_config.enable_prefect_secrets:
-        extra_providers.append(_prefect_provider(only_toml_fragments=providers_config.only_toml_fragments))
+        extra_providers.append(
+            _prefect_provider(only_toml_fragments=providers_config.only_toml_fragments)
+        )
     if providers_config.enable_google_secrets:
         extra_providers.append(
             _google_secrets_provider(only_toml_fragments=providers_config.only_toml_fragments)
@@ -159,10 +162,7 @@ def _airflow_providers() -> List[ConfigProvider]:
 def _prefect_provider(only_toml_fragments: bool = True) -> ConfigProvider:
     from dlt.common.configuration.resolve import resolve_configuration
     from dlt.common.configuration.providers.prefect import PrefectSecretsProvider
-    from dlt.common.configuration.specs.prefect_credentials
 
-    c = resolve_configuration(
-        PrefectCredentials(), sections=(known_sections.PROVIDERS, "prefect")
-    )
+    c = resolve_configuration(PrefectCredentials(), sections=(known_sections.PROVIDERS, "prefect"))
 
     return PrefectSecretsProvider(c, only_toml_fragments=only_toml_fragments)

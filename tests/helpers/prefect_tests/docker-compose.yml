@@ -1,0 +1,14 @@
+---
+services:
+  prefect-server:
+    image: prefecthq/prefect:3.1.11-python3.12
+    command: ["prefect", "server", "start"]
+    container_name: prefect-server
+    ports:
+      - "4200:4200"
+    environment:
+      - PREFECT_SERVER_API_HOST=0.0.0.0
+      - PREFECT_SERVER_API_PORT=4200
+      - PREFECT_UI_ENABLED=true
+      - PREFECT_UI_STATIC_DIRECTORY=/ui_build
+      - PREFECT_LOGGING_SERVER_LEVEL=DEBUG
